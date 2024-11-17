@@ -45,9 +45,11 @@ go version
 
 - `main.go`: Initializes the application and sets up the HTTP server.
 - `parser.go`: Contains the Ethereum parser logic.
+- `parser_test.go`: Contains unit tests for the application.
 - `transaction.go`: Defines the `Transaction` struct.
 - `rpc.go`: Handles communication with the Ethereum JSON-RPC API.
 - `utils.go`: Provides utility functions for data conversion and fee calculation.
+- `responses/`: Directory to hold sample input/output for testing or debugging purposes.
 
 ## Usage
 
@@ -148,6 +150,48 @@ GET /transaction?hash=0xYourTransactionHash
 curl 'http://localhost:8080/transaction?hash=0xYourTransactionHash'
 ```
 
+### Testing the Application
+
+Unit tests are provided in `parser_test.go` to ensure the correctness of the core functionality. The tests cover address subscription, transaction retrieval, current block tracking, and utility functions.
+
+#### Running the Unit Tests
+
+Run the unit tests using:
+
+```bash
+go test -v
+```
+
+This command will execute all the tests in `parser_test.go` and output the results. The `-v` flag provides verbose output.
+
+### Test Cases
+
+The following are some of the key test cases implemented:
+
+1. **Test NewEthereumParser Initialization**
+   - **Purpose:** Ensures the parser initializes with the correct starting block.
+   - **Description:** Mocks the response for the latest block number and verifies the starting block calculation.
+
+2. **Test Subscribe Method**
+   - **Purpose:** Verifies that Ethereum addresses can be subscribed correctly.
+   - **Description:** Checks if the address is added to the list of subscribed addresses.
+
+3. **Test GetTransactions Method**
+   - **Purpose:** Ensures transactions are correctly retrieved for a subscribed address.
+   - **Description:** Adds a mock transaction and verifies that it can be fetched.
+
+4. **Test GetCurrentBlock Method**
+   - **Purpose:** Checks if the current block number is returned correctly.
+   - **Description:** Sets a block number and verifies the output.
+
+5. **Test hexToDecimal Utility Function**
+   - **Purpose:** Validates the conversion of hex strings to decimal strings.
+   - **Description:** Tests with a known hex value and checks the result.
+
+6. **Test calculateTransactionFee Utility Function**
+   - **Purpose:** Verifies the correct calculation of transaction fees.
+   - **Description:** Uses known gas price and gas used values to calculate the fee.
+
 ### Configuration
 
 - **Starting Block:** The parser starts from 10,000 blocks before the latest block by default. Modify the `N` constant in `parser.go` to adjust this.
@@ -168,16 +212,22 @@ curl 'http://localhost:8080/transaction?hash=0xYourTransactionHash'
 eth-parser/
 ├── main.go
 ├── parser.go
+├── parser_test.go
 ├── transaction.go
 ├── rpc.go
-└── utils.go
+├── utils.go
+└── responses/
+    ├── input.txt
+    └── output.json
 ```
 
 - **main.go:** Initializes the parser and starts the HTTP server.
 - **parser.go:** Implements the parsing logic and methods for address subscription.
-- **transaction.go:** Defines the structure of a transaction.
+- **parser_test.go:** Contains unit tests to validate the functionality of the parser.
+- **transaction.go:** Defines the data structure for transactions.
 - **rpc.go:** Handles JSON-RPC API calls to the Ethereum node.
 - **utils.go:** Contains utility functions for hex-to-decimal conversion and fee calculation.
+- **responses/**: Directory for sample input/output files.
 
 ## Troubleshooting
 
