@@ -1,1 +1,0 @@
-curl -X POST -H "Content-Type: application/json" -d '{"address":"0x4675C7e5BaAFBFFbca748158bEcBA61ef3b0a263"}' http://localhost:8080/subscribe
